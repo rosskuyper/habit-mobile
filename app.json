@@ -1,0 +1,12 @@
+{
+  "name": "habit-mobile",
+  "displayName": "habit-mobile",
+  "expo": {
+    "name": "habit-mobile",
+    "slug": "habit-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
