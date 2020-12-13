@@ -6,7 +6,9 @@
     "web": "expo start --web",
     "start": "react-native start --reset-cache",
     "test": "jest",
-    "xcode": "open ./ios/habitmobile.xcworkspace"
+    "xcode": "open ./ios/habitmobile.xcworkspace",
+    "codegen": "yarn codegen:clean && apollo client:codegen __types__ --globalTypesFile=./src/types/globalTypes.ts --target=typescript && yarn prettier --write '**/__types__/*.ts' --loglevel=silent && yarn prettier --write 'src/types/globalTypes.ts' --loglevel=silent && rmdir __types__",
+    "codegen:clean": "find . -regex './src/.*__types__.*' -type d -prune -exec rm -r \"{}\" \\;"
   },
   "dependencies": {
     "@apollo/client": "^3.3.4",
@@ -20,6 +22,7 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@ui-kitten/components": "^5.0.0",
+    "apollo": "^2.31.2",
     "expo": "~39.0.2",
     "expo-splash-screen": "~0.6.2",
     "expo-updates": "~0.3.3",
@@ -28,6 +31,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.3",
+    "react-native-dotenv": "^2.4.3",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "^3.1.9",
