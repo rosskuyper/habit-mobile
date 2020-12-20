@@ -1,5 +1,8 @@
+import {useQuery} from '@apollo/client'
 import * as React from 'react'
 import {StyleSheet, Text, useWindowDimensions, View, Button} from 'react-native'
+import {QUERY_ME} from '../api/queries'
+import {Me} from '../api/__types__/Me'
 import {useFirebaseAuthOrError} from '../hooks/useFirebaseAuth'
 
 /***********************************************************************************************************************
@@ -8,6 +11,8 @@ import {useFirebaseAuthOrError} from '../hooks/useFirebaseAuth'
 export const PrivateNavigation = () => {
   const {height} = useWindowDimensions()
   const {firebaseUser, signOut} = useFirebaseAuthOrError()
+
+  useQuery<Me>(QUERY_ME)
 
   const styles = StyleSheet.create({
     container: {
