@@ -6,9 +6,6 @@ import {StyleSheet} from 'react-native'
 import {ScreenContainer} from '../../components/ScreenContainer/ScreenContainer'
 import {TopWeightedView} from '../../components/TopWeightedView/TopWeightedView'
 import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
-import {useQuery} from '@apollo/client'
-import {GET_SIGNIN_OPTIONS} from '../../api/queries'
-import {GetSignInOptions} from '../../api/__types__/GetSignInOptions'
 
 const styles = StyleSheet.create({
   container: {
@@ -20,10 +17,6 @@ const styles = StyleSheet.create({
 
 export const SignIn = () => {
   const {inProgress, initGoogleSignIn, initAppleSignIn} = useFirebaseAuth()
-
-  const {data, error, loading} = useQuery<GetSignInOptions>(GET_SIGNIN_OPTIONS)
-
-  console.log(data, error, loading)
 
   return (
     <ScreenContainer>
