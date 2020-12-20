@@ -1,4 +1,4 @@
-package com.habitmobile.generated;
+package com.habitualizer.mobile.generated;
 
 import java.util.Arrays;
 import java.util.List;

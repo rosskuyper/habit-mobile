@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1045305354627",
+    "project_id": "habit-tracker-282721",
+    "storage_bucket": "habit-tracker-282721.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045305354627:android:b4b614587a160dc1836eb6",
+        "android_client_info": {
+          "package_name": "com.habitualizer.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045305354627-ciu2kk0punmbiaenmahlmknr295bb3jm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.habitualizer.mobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1045305354627-qrc2giuq997glg9u2ds1kvgsb15qjfhc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBflYt2vtTsrnrTkRJ9Fwz0UEiHrd08fCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045305354627-8dff4jbap0sgmolhqq0derjcqjk06h0v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1045305354627-of1hlokgno5sr057rb5io2msgqab3hst.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.habitualizer.mobile",
+                "app_store_id": "1543532271"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

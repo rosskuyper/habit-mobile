@@ -2,10 +2,12 @@ import {GoogleSigninButton} from '@react-native-community/google-signin'
 import {AppleButton} from '@invertase/react-native-apple-authentication'
 import {Layout, Text} from '@ui-kitten/components'
 import React from 'react'
-import {StyleSheet} from 'react-native'
+import {StyleSheet, Platform} from 'react-native'
 import {ScreenContainer} from '../../components/ScreenContainer/ScreenContainer'
 import {TopWeightedView} from '../../components/TopWeightedView/TopWeightedView'
 import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
+
+const isIOS = Platform.OS === 'ios'
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +18,11 @@ const styles = StyleSheet.create({
 })
 
 export const SignIn = () => {
-  const {inProgress, initGoogleSignIn, initAppleSignIn} = useFirebaseAuth()
+  const {inProgress, initGoogleSignIn, initAppleSignIn, error} = useFirebaseAuth()
+
+  if (error) {
+    console.log('error', error)
+  }
 
   return (
     <ScreenContainer>
@@ -34,15 +40,17 @@ export const SignIn = () => {
             disabled={inProgress}
           />
 
-          <AppleButton
-            buttonStyle={AppleButton.Style.WHITE_OUTLINE}
-            buttonType={AppleButton.Type.SIGN_IN}
-            style={{
-              width: 160,
-              height: 45,
-            }}
-            onPress={initAppleSignIn}
-          />
+          {isIOS && (
+            <AppleButton
+              buttonStyle={AppleButton.Style.WHITE_OUTLINE}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{
+                width: 160,
+                height: 45,
+              }}
+              onPress={initAppleSignIn}
+            />
+          )}
         </Layout>
       </TopWeightedView>
     </ScreenContainer>
