@@ -2,8 +2,11 @@ import React, {useState, useEffect, useContext, createContext} from 'react'
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'
 import {GoogleSignin} from '@react-native-community/google-signin'
 import {appleAuth} from '@invertase/react-native-apple-authentication'
+import {env} from '../Constants'
 
-GoogleSignin.configure()
+GoogleSignin.configure({
+  webClientId: env.FIREBASE_WEB_CLIENT_ID,
+})
 
 /**
  * `loading` is initially false (on app lanuch) and is set to true once we
@@ -43,8 +46,9 @@ const authContext = createContext<AuthContext>(defaultAuth)
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
 export const FirebaseAuthProvider: React.FC = ({children}) => {
-  const auth = useFirebaseAuthProvider()
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>
+  const authValue = useFirebaseAuthProvider()
+
+  return <authContext.Provider value={authValue}>{children}</authContext.Provider>
 }
 
 // Hook for child components to get the auth object ...
@@ -99,8 +103,8 @@ function useFirebaseAuthProvider() {
       await auth().signInWithCredential(googleCredential)
 
       setInProgress(false)
-    } catch (error) {
-      setError(error)
+    } catch (signInError) {
+      setError(signInError)
       setInProgress(false)
     }
   }
@@ -128,8 +132,8 @@ function useFirebaseAuthProvider() {
       await auth().signInWithCredential(appleCredential)
 
       setInProgress(false)
-    } catch (error) {
-      setError(error)
+    } catch (signInError) {
+      setError(signInError)
       setInProgress(false)
     }
   }

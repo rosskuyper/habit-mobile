@@ -1,4 +1,4 @@
-package com.habitmobile;
+package com.habitualizer.mobile;
 
 import android.os.Bundle;
 
