@@ -1,3 +1,17 @@
-import {GRAPHQL_ENDPOINT as _GRAPHQL_ENDPOINT} from '@env'
+export type ENVIRONMENT = {
+  GRAPHQL_ENDPOINT: string
+}
 
-export const GRAPHQL_ENDPOINT = _GRAPHQL_ENDPOINT || 'http://localhost:9000/graphql'
+const config: Record<string, ENVIRONMENT> = {
+  development: {
+    GRAPHQL_ENDPOINT: 'http://localhost:9000/graphql',
+  },
+
+  production: {
+    GRAPHQL_ENDPOINT: 'https://api.habitualizer.com/graphql',
+  },
+}
+
+const env = process.env.NODE_ENV === 'development' ? config.development : config.production
+
+export {env}

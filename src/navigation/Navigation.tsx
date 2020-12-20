@@ -26,7 +26,7 @@ function RootNavigator() {
 
   // The user is logged in through firebase
   if (firebaseUser) {
-    return <PrivateNavigation firebaseUser={firebaseUser} />
+    return <PrivateNavigation />
   }
 
   // The user is not logged in at all

@@ -1,11 +1,13 @@
-import {GRAPHQL_ENDPOINT} from './src/Constants'
+import {env} from './src/Constants'
 
-module.exports = {
+const config = {
   client: {
     includes: [__dirname + '/src/**'],
     service: {
       name: 'habit',
-      url: GRAPHQL_ENDPOINT,
+      url: env.GRAPHQL_ENDPOINT,
     },
   },
 }
+
+export default config
