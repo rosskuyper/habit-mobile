@@ -1,10 +1,18 @@
+import * as eva from '@eva-design/eva'
+import {ApplicationProvider as UIComponentProvider} from '@ui-kitten/components'
 import React from 'react'
-// import {useFirebaseAuth} from './hooks/useFirebaseAuth'
+import {FirebaseAuthProvider} from './hooks/useFirebaseAuth'
 import Navigation from './navigation/Navigation'
+import {AppApolloProvider} from './providers/apollo'
 
 export const App = () => {
-  // We will add the apollo provider here
-  // const {firebaseUser} = useFirebaseAuth()
-
-  return <Navigation />
+  return (
+    <UIComponentProvider {...eva} theme={eva.light}>
+      <FirebaseAuthProvider>
+        <AppApolloProvider>
+          <Navigation />
+        </AppApolloProvider>
+      </FirebaseAuthProvider>
+    </UIComponentProvider>
+  )
 }
