@@ -23,7 +23,6 @@ phases:
     commands:
       # - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - yarn install
-      - yarn eslint
       - cd "$CODEBUILD_SRC_DIR/infra"
       - terraform init
 
