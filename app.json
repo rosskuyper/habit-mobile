@@ -1,6 +1,6 @@
 {
   "name": "habit-mobile",
-  "displayName": "habit-mobile",
+  "displayName": "Habit Simplified",
   "expo": {
     "name": "habit-mobile",
     "slug": "habit-mobile",
@@ -8,5 +8,15 @@
     "assetBundlePatterns": [
       "**/*"
     ]
+  },
+  "updates": {
+    "fallbackToCacheTimeout": 0
+  },
+  "ios": {
+    "supportsTablet": true,
+    "bundleIdentifier": "com.habitualizer.mobile"
+  },
+  "android": {
+    "package": "com.habitualizer.mobile"
   }
 }
