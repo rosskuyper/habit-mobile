@@ -1,0 +1,40 @@
+# https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: 'production'
+    EXPO_USERNAME: 'ross-kuyper'
+  # parameter-store:
+  #   EXPO_PASSWORD: '/habit-mobile/expo-password'
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - curl -OLs https://releases.hashicorp.com/terraform/0.14.3/terraform_0.14.3_linux_amd64.zip
+      - unzip -qq terraform_0.14.3_linux_amd64.zip
+      - mv terraform /usr/local/bin/terraform
+      - chmod a+x /usr/local/bin/terraform
+      - yarn global add expo-cli
+
+  pre_build:
+    commands:
+      # - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+      - yarn install
+      - yarn eslint
+      - cd "$CODEBUILD_SRC_DIR/infra"
+      - terraform init
+
+  build:
+    commands:
+      # - cd "$CODEBUILD_SRC_DIR"
+      # - expo publish --target=bare
+      - cd "$CODEBUILD_SRC_DIR/infra"
+      - terraform plan -out=main.tf.plan
+      - terraform apply -auto-approve "main.tf.plan"
+    finally:
+      - rm -f "$CODEBUILD_SRC_DIR/infra/main.tf.plan"
+      - cd "$CODEBUILD_SRC_DIR"
+      - yarn clean

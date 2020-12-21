@@ -2,6 +2,16 @@
 #
 .DS_Store
 
+# Terraform
+#
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tf.plan
+.shastore
+.terraform.lock.hcl
+
 # Xcode
 #
 build/
