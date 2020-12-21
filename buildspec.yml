@@ -5,8 +5,8 @@ env:
   variables:
     NODE_ENV: 'production'
     EXPO_USERNAME: 'ross-kuyper'
-  # parameter-store:
-  #   EXPO_PASSWORD: '/habit-mobile/expo-password'
+  parameter-store:
+    EXPO_PASSWORD: '/habit-mobile/expo-password'
 
 phases:
   install:
@@ -21,19 +21,17 @@ phases:
 
   pre_build:
     commands:
-      # - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+      - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - yarn install
       - cd "$CODEBUILD_SRC_DIR/infra"
       - terraform init
 
   build:
     commands:
-      # - cd "$CODEBUILD_SRC_DIR"
-      # - expo publish --target=bare
+      - cd "$CODEBUILD_SRC_DIR"
+      - expo publish --target=bare
       - cd "$CODEBUILD_SRC_DIR/infra"
       - terraform plan -out=main.tf.plan
       - terraform apply -auto-approve "main.tf.plan"
     finally:
       - rm -f "$CODEBUILD_SRC_DIR/infra/main.tf.plan"
-      - cd "$CODEBUILD_SRC_DIR"
-      - yarn clean
