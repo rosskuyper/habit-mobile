@@ -4,19 +4,23 @@
   "expo": {
     "name": "habit-mobile",
     "slug": "habit-mobile",
-    "version": "1.0.0",
+    "version": "1.0.0.4",
+    "platforms": [
+      "android"
+    ],
     "assetBundlePatterns": [
       "**/*"
-    ]
-  },
-  "updates": {
-    "fallbackToCacheTimeout": 0
-  },
-  "ios": {
-    "supportsTablet": true,
-    "bundleIdentifier": "com.habitualizer.mobile"
-  },
-  "android": {
-    "package": "com.habitualizer.mobile"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.habitualizer.mobile"
+    },
+    "android": {
+      "package": "com.habitualizer.mobile"
+    },
+    "entryPoint": "index.js"
   }
 }

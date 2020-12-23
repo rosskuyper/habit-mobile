@@ -6,6 +6,7 @@ import {StyleSheet, Platform} from 'react-native'
 import {ScreenContainer} from '../../components/ScreenContainer/ScreenContainer'
 import {TopWeightedView} from '../../components/TopWeightedView/TopWeightedView'
 import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
+import {env} from '../../Constants'
 
 const isIOS = Platform.OS === 'ios'
 
@@ -19,10 +20,6 @@ const styles = StyleSheet.create({
 
 export const SignIn = () => {
   const {inProgress, initGoogleSignIn, initAppleSignIn, error} = useFirebaseAuth()
-
-  if (error) {
-    console.log('error', error)
-  }
 
   return (
     <ScreenContainer>
@@ -51,6 +48,12 @@ export const SignIn = () => {
               onPress={initAppleSignIn}
             />
           )}
+
+          {error && <Text>{error.message}</Text>}
+
+          <Text>GRAPHQL_ENDPOINT: {env.GRAPHQL_ENDPOINT}</Text>
+          <Text>FIREBASE_WEB_CLIENT_ID: {env.FIREBASE_WEB_CLIENT_ID}</Text>
+          <Text>NODE_ENV: {env.NODE_ENV}</Text>
         </Layout>
       </TopWeightedView>
     </ScreenContainer>

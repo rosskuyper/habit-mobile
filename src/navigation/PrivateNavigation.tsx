@@ -3,6 +3,7 @@ import * as React from 'react'
 import {StyleSheet, Text, useWindowDimensions, View, Button} from 'react-native'
 import {QUERY_ME} from '../api/queries'
 import {Me} from '../api/__types__/Me'
+import {env} from '../Constants'
 import {useFirebaseAuthOrError} from '../hooks/useFirebaseAuth'
 
 /***********************************************************************************************************************
@@ -29,9 +30,13 @@ export const PrivateNavigation = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hola, {firebaseUser.displayName}</Text>
+      <Text style={styles.text}>Hey, {firebaseUser.displayName}</Text>
       <Text style={styles.text}>{firebaseUser.email}</Text>
       <Text style={styles.text}>❤️</Text>
+
+      <Text>GRAPHQL_ENDPOINT: {env.GRAPHQL_ENDPOINT}</Text>
+      <Text>FIREBASE_WEB_CLIENT_ID: {env.FIREBASE_WEB_CLIENT_ID}</Text>
+      <Text>NODE_ENV: {env.NODE_ENV}</Text>
 
       <Button title="Sign out" onPress={signOut} />
     </View>
