@@ -33,7 +33,7 @@ phases:
       - terraform plan -out=main.tf.plan
       - terraform apply -auto-approve "main.tf.plan"
       - cd "$CODEBUILD_SRC_DIR"
-      - expo publish --target=bare --release-channel=prod-v$(jq jq --raw-output .expo.version app.json)
-      - curl -X POST --data-urlencode "payload={\"channel\": \"#ci-cd-notifications\", \"username\": \"ci-bot\", \"text\": \"Mobile App Expo Publish Finished\", \"icon_emoji\": \":male_mage:\"}" $SLACK_WEBHOOK
+      - 'expo publish --target=bare --release-channel=prod-v$(jq --raw-output .expo.version app.json)'
+      - 'curl -X POST --data-urlencode "payload={\"channel\": \"#ci-cd-notifications\", \"username\": \"ci-bot\", \"text\": \"Mobile App Expo Publish Finished\", \"icon_emoji\": \":male_mage:\"}" $SLACK_WEBHOOK'
     finally:
       - rm -f "$CODEBUILD_SRC_DIR/infra/main.tf.plan"
