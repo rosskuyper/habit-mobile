@@ -1,48 +1,58 @@
-import {useQuery} from '@apollo/client'
-import * as React from 'react'
-import {StyleSheet, Text, useWindowDimensions, View, Button} from 'react-native'
-import {QUERY_ME} from '../api/queries'
-import {Me} from '../api/__types__/Me'
-import {env} from '../Constants'
-import {useFirebaseAuthOrError} from '../hooks/useFirebaseAuth'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {createStackNavigator} from '@react-navigation/stack'
+import {Ionicons} from '@expo/vector-icons'
+import React from 'react'
+import {HabitsHome} from '../screens/Tabs/Habits/HabitsHome'
+import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
+import {HabitsStackList, TasksStackList} from './Params'
 
 /***********************************************************************************************************************
- * The exported component with a bit of wrapping business logic to happen on mount and during auth state changes
+ * Utils
  **********************************************************************************************************************/
+// Tab Nav Icons
+function TabBarIcon(props: {name: string; color: string}) {
+  return <Ionicons size={30} {...props} />
+}
+
+/***********************************************************************************************************************
+ * Each Tab has its own Stack / History etc
+ **********************************************************************************************************************/
+const StackNav_Habits = createStackNavigator<HabitsStackList>()
+const HabitsStack = () => (
+  <StackNav_Habits.Navigator>
+    <StackNav_Habits.Screen name="HabitsHome" component={HabitsHome} options={{headerShown: false}} />
+  </StackNav_Habits.Navigator>
+)
+
+const StackNav_Tasks = createStackNavigator<TasksStackList>()
+const TasksStack = () => (
+  <StackNav_Tasks.Navigator>
+    <StackNav_Tasks.Screen name="TasksHome" component={TasksHome} options={{headerShown: false}} />
+  </StackNav_Tasks.Navigator>
+)
+
+/***********************************************************************************************************************
+ * The overall wrapping Tab Navigator
+ **********************************************************************************************************************/
+const TabNav = createBottomTabNavigator()
+
 export const PrivateNavigation = () => {
-  const {height} = useWindowDimensions()
-  const {firebaseUser, signOut} = useFirebaseAuthOrError()
-
-  useQuery<Me>(QUERY_ME)
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      paddingTop: height / 3,
-    },
-    text: {
-      fontSize: 18,
-      marginBottom: 14,
-    },
-    contentContainer: {
-      flex: 1,
-      alignItems: 'center',
-    },
-  })
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hi, {firebaseUser.displayName}</Text>
-      <Text style={styles.text}>{firebaseUser.email}</Text>
-      <Text style={styles.text}>❤️</Text>
-
-      <Text>GRAPHQL_ENDPOINT: {env.GRAPHQL_ENDPOINT}</Text>
-      <Text>FIREBASE_WEB_CLIENT_ID: {env.FIREBASE_WEB_CLIENT_ID}</Text>
-      <Text>NODE_ENV: {env.NODE_ENV}</Text>
-
-      <Button title="Sign out" onPress={signOut} />
-    </View>
+    <TabNav.Navigator>
+      <TabNav.Screen
+        name="Habits"
+        component={HabitsStack}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="md-home" color={color} />,
+        }}
+      />
+      <TabNav.Screen
+        name="Tasks"
+        component={TasksStack}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-add-circle" color={color} />,
+        }}
+      />
+    </TabNav.Navigator>
   )
 }
