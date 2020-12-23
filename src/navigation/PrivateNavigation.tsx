@@ -26,11 +26,15 @@ export const PrivateNavigation = () => {
       fontSize: 18,
       marginBottom: 14,
     },
+    contentContainer: {
+      flex: 1,
+      alignItems: 'center',
+    },
   })
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hey, {firebaseUser.displayName}</Text>
+      <Text style={styles.text}>Hi, {firebaseUser.displayName}</Text>
       <Text style={styles.text}>{firebaseUser.email}</Text>
       <Text style={styles.text}>❤️</Text>
 
