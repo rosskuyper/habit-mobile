@@ -1,10 +1,11 @@
 import {Button, Input, Text} from '@ui-kitten/components'
-import {map, pipe, values} from 'ramda'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {StyleSheet, View} from 'react-native'
 import {BottomModal, useModalVisibility} from '../../../components/BottomModal/BottomModal'
+import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
 import {ScreenContainer} from '../../../components/ScreenContainer/ScreenContainer'
-import {TaskGroup, TaskGroupRecord, useTaskState} from '../../../hooks/useTaskState'
+import {useTaskState} from '../../../hooks/useTaskState'
+import * as TaskTypes from '../../../types/TaskTypes'
 
 const styles = StyleSheet.create({
   add: {
@@ -32,19 +33,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const renderGroups = pipe(
-  map<TaskGroupRecord, JSX.Element>((group: TaskGroup) => {
-    return (
-      <Text category="s1" key={group.id}>
-        {group.title}
-      </Text>
-    )
-  }),
-  values,
-)
-
 export const TasksHome = () => {
-  const {groups, pushGroup, pushTask} = useTaskState()
+  const {sortedGroups, pushGroup, pushTask} = useTaskState()
   const [newTaskGroupName, setNewTaskGroupName] = useState('')
 
   const {isVisible, closeModal, openModal} = useModalVisibility()
@@ -61,10 +51,17 @@ export const TasksHome = () => {
     setNewTaskGroupName('')
   }
 
+  useEffect(() => {
+    pushGroup({title: 'Today'})
+    pushGroup({title: 'This week'})
+  }, [pushGroup])
+
   return (
     <>
       <ScreenContainer>
-        {renderGroups(groups)}
+        {sortedGroups.map((group: TaskTypes.TaskGroup) => (
+          <TaskGroup group={group} key={group.id} pushTask={pushTask} />
+        ))}
 
         <Button style={styles.add} onPress={openModal}>
           Add Group

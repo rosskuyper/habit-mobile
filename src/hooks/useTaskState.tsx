@@ -1,24 +1,10 @@
-import {useReducer} from 'react'
+import {values} from 'ramda'
+import {useCallback, useReducer} from 'react'
 import {v4} from 'uuid'
-
-export type Task = {
-  id: string
-  completed: boolean
-  text: string
-}
-
-export type TaskRecord = Record<string, Task>
-
-export type TaskGroup = {
-  id: string
-  title: string
-  tasks: TaskRecord
-}
-
-export type TaskGroupRecord = Record<string, TaskGroup>
+import * as TaskTypes from '../types/TaskTypes'
 
 type TaskState = {
-  groups: TaskGroupRecord
+  groups: TaskTypes.TaskGroupRecord
 }
 
 type TaskAction_TaskPush = {
@@ -37,6 +23,9 @@ type TaskAction_GroupPush = {
 }
 
 type TaskAction = TaskAction_TaskPush | TaskAction_GroupPush
+
+export type PushTaskPayload = TaskAction_TaskPush['payload']
+export type PushGroupPayload = TaskAction_GroupPush['payload']
 
 function reducer(state: TaskState, action: TaskAction): TaskState {
   switch (action.type) {
@@ -61,7 +50,7 @@ function reducer(state: TaskState, action: TaskAction): TaskState {
       const id = v4()
       const group = state.groups[groupId]
 
-      const newTask: Task = {
+      const newTask: TaskTypes.Task = {
         id,
         text,
         completed: false,
@@ -97,21 +86,28 @@ export const useTaskState = () => {
     groups: {},
   })
 
-  const pushTask = (payload: TaskAction_TaskPush['payload']) =>
-    dispatch({
-      type: 'task.push',
-      payload,
-    })
+  const pushTask = useCallback(
+    (payload: PushTaskPayload) =>
+      dispatch({
+        type: 'task.push',
+        payload,
+      }),
+    [dispatch],
+  )
 
-  const pushGroup = (payload: TaskAction_GroupPush['payload']) =>
-    dispatch({
-      type: 'group.push',
-      payload,
-    })
+  const pushGroup = useCallback(
+    (payload: PushGroupPayload) =>
+      dispatch({
+        type: 'group.push',
+        payload,
+      }),
+    [dispatch],
+  )
 
   return {
     pushTask,
     pushGroup,
     groups,
+    sortedGroups: values(groups),
   }
 }
