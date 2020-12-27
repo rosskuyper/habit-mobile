@@ -1,16 +1,18 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
 import {Ionicons} from '@expo/vector-icons'
-import React from 'react'
+import React, {ComponentProps} from 'react'
 import {HabitsHome} from '../screens/Tabs/Habits/HabitsHome'
-import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
+// import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
 import {HabitsStackList, TasksStackList} from './Params'
+import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
 
 /***********************************************************************************************************************
  * Utils
  **********************************************************************************************************************/
 // Tab Nav Icons
-function TabBarIcon(props: {name: string; color: string}) {
+type IconProps = ComponentProps<typeof Ionicons>
+function TabBarIcon(props: IconProps) {
   return <Ionicons size={30} {...props} />
 }
 
@@ -40,17 +42,17 @@ export const PrivateNavigation = () => {
   return (
     <TabNav.Navigator>
       <TabNav.Screen
-        name="Habits"
-        component={HabitsStack}
-        options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="md-home" color={color} />,
-        }}
-      />
-      <TabNav.Screen
         name="Tasks"
         component={TasksStack}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="ios-add-circle" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-list" color={color} />,
+        }}
+      />
+      <TabNav.Screen
+        name="Habits"
+        component={HabitsStack}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-analytics" color={color} />,
         }}
       />
     </TabNav.Navigator>
