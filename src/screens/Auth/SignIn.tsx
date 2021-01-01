@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 24,
   },
+  hash: {
+    alignSelf: 'flex-end',
+    textAlign: 'center',
+  },
 })
 
 export const SignIn = () => {
@@ -51,9 +55,7 @@ export const SignIn = () => {
 
           {error && <Text>{error.message}</Text>}
 
-          <Text>GRAPHQL_ENDPOINT: {env.GRAPHQL_ENDPOINT}</Text>
-          <Text>FIREBASE_WEB_CLIENT_ID: {env.FIREBASE_WEB_CLIENT_ID}</Text>
-          <Text>NODE_ENV: {env.NODE_ENV}</Text>
+          <Text style={styles.hash}>{env.COMMIT_HASH}</Text>
         </Layout>
       </TopWeightedView>
     </ScreenContainer>
