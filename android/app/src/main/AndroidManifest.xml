@@ -19,7 +19,7 @@
   >
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@ross-kuyper/habit-mobile" />
     <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="39.0.0" />
-    <meta-data android:name="expo.modules.updates.EXPO_RELEASE_CHANNEL" android:value="prod-v1.0.0.6" />
+    <meta-data android:name="expo.modules.updates.EXPO_RELEASE_CHANNEL" android:value="prod-v1.0.0.7" />
     <meta-data android:name="com.bugsnag.android.API_KEY"
              android:value="3f4ade78586a92beb8e4c6fb2c4f7d85"/>
 
