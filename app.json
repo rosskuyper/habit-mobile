@@ -4,7 +4,7 @@
   "expo": {
     "name": "habit-mobile",
     "slug": "habit-mobile",
-    "version": "1.0.0.6",
+    "version": "1.0.0.7",
     "platforms": [
       "android"
     ],
