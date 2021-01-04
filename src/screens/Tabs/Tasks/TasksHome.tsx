@@ -1,11 +1,12 @@
 import {Button, Input, Text} from '@ui-kitten/components'
-import React, {useEffect, useState} from 'react'
-import {StyleSheet, View} from 'react-native'
+import React, {useState} from 'react'
+import {StyleSheet, View, ScrollView} from 'react-native'
 import {BottomModal, useModalVisibility} from '../../../components/BottomModal/BottomModal'
 import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
 import {ScreenContainer} from '../../../components/ScreenContainer/ScreenContainer'
-import {useTaskState} from '../../../hooks/useTaskState'
-import * as TaskTypes from '../../../types/TaskTypes'
+import {useTaskState} from '../../../hooks/useTaskState/useTaskState'
+import {useQuery} from '@apollo/client'
+import {QUERY_ME} from '../../../api/queries'
 
 const styles = StyleSheet.create({
   add: {
@@ -39,29 +40,33 @@ export const TasksHome = () => {
 
   const {isVisible, closeModal, openModal} = useModalVisibility()
 
+  const {data} = useQuery(QUERY_ME)
+
   const saveTaskGroup = () => {
     if (newTaskGroupName.trim() === '') {
       return
     }
 
     pushGroup({
-      title: newTaskGroupName,
+      name: newTaskGroupName,
     })
     closeModal()
     setNewTaskGroupName('')
   }
 
-  useEffect(() => {
-    pushGroup({title: 'Today'})
-    pushGroup({title: 'This week'})
-  }, [pushGroup])
+  // useEffect(() => {
+  //   pushGroup({name: 'Today'})
+  //   pushGroup({name: 'This week'})
+  // }, [pushGroup])
 
   return (
     <>
       <ScreenContainer>
-        {sortedGroups.map((group: TaskTypes.TaskGroup) => (
-          <TaskGroup group={group} key={group.id} pushTask={pushTask} />
-        ))}
+        <ScrollView style={{flex: 1}}>
+          {sortedGroups.map((group) => (
+            <TaskGroup group={group} key={group.id} pushTask={pushTask} />
+          ))}
+        </ScrollView>
 
         <Button style={styles.add} onPress={openModal}>
           Add Group

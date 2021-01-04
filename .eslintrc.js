@@ -8,7 +8,7 @@ module.exports = {
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    'no-shadow': 'error',
+    '@typescript-eslint/no-shadow': 'error',
   },
   parser: '@typescript-eslint/parser',
   env: {
