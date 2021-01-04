@@ -6,6 +6,8 @@ import {env} from '../Constants'
 import {useFirebaseAuth} from '../hooks/useFirebaseAuth'
 
 export const AppApolloProvider: React.FC = ({children}) => {
+  console.log('env.GRAPHQL_ENDPOINT', env.GRAPHQL_ENDPOINT)
+
   const httpLink = new HttpLink({
     uri: env.GRAPHQL_ENDPOINT,
   })
@@ -14,12 +16,18 @@ export const AppApolloProvider: React.FC = ({children}) => {
   const {firebaseUser} = useFirebaseAuth()
 
   // The user token will change over time
-  const authLink = setContext(async (_request, {headers}) => ({
-    headers: {
-      ...headers,
-      authorization: firebaseUser ? `Bearer ${await firebaseUser.getIdToken()}` : '',
-    },
-  }))
+  const authLink = setContext(async (_request, {headers}) => {
+    const authorization = firebaseUser ? `Bearer ${await firebaseUser.getIdToken()}` : ''
+
+    console.log('headers.authorization', authorization)
+
+    return {
+      headers: {
+        ...headers,
+        authorization,
+      },
+    }
+  })
 
   // Error Handling
   const errorLink = onError((error) => {

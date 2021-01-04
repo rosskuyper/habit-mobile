@@ -2,9 +2,9 @@ import React from 'react'
 import {StyleSheet, View} from 'react-native'
 import {Text} from '@ui-kitten/components'
 import {NewTask, Task} from '../Task/Task'
-import * as TaskTypes from '../../types/TaskTypes'
 import {values} from 'ramda'
-import {PushTaskPayload} from '../../hooks/useTaskState'
+import {TaskGroup as TaskGroupType} from '../../hooks/useTaskState/reducer'
+import {PushTaskHookPayload} from '../../hooks/useTaskState/useTaskState'
 
 const styles = StyleSheet.create({
   container: {
@@ -19,22 +19,22 @@ const styles = StyleSheet.create({
 })
 
 export type TaskGroupProps = {
-  group: TaskTypes.TaskGroup
-  pushTask: (payload: PushTaskPayload) => void
+  group: TaskGroupType
+  pushTask: (payload: PushTaskHookPayload) => void
 }
 
 export const TaskGroup = ({group, pushTask}: TaskGroupProps) => {
   return (
     <View style={styles.container}>
       <Text category="h6" style={styles.title}>
-        {group.title}
+        {group.name}
       </Text>
 
       {values(group.tasks).map((task) => (
         <Task task={task} key={task.id} />
       ))}
 
-      <NewTask key={`${group.id}-new-task`} pushTask={pushTask} groupId={group.id} />
+      <NewTask key={`${group.id}-new-task`} pushTask={pushTask} taskGroupId={group.id} />
     </View>
   )
 }
