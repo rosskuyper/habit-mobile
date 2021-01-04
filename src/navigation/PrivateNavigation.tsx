@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {Ionicons} from '@expo/vector-icons'
 import React, {ComponentProps} from 'react'
 import {HabitsHome} from '../screens/Tabs/Habits/HabitsHome'
-// import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
 import {HabitsStackList, TasksStackList} from './Params'
 import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
 
@@ -22,7 +21,11 @@ function TabBarIcon(props: IconProps) {
 const StackNav_Habits = createStackNavigator<HabitsStackList>()
 const HabitsStack = () => (
   <StackNav_Habits.Navigator>
-    <StackNav_Habits.Screen name="HabitsHome" component={HabitsHome} options={{headerShown: false}} />
+    <StackNav_Habits.Screen
+      name="HabitsHome"
+      component={HabitsHome}
+      options={{headerShown: false}}
+    />
   </StackNav_Habits.Navigator>
 )
 
