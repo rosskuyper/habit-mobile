@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, View} from 'react-native'
 import {CheckBox, Text, Input} from '@ui-kitten/components'
 import {Task as TaskType} from '../../hooks/useTaskState/reducer'
-import {PushTaskHookPayload} from '../../hooks/useTaskState/useTaskState'
+import {useTaskState} from '../../hooks/useTaskState/useTaskState'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,12 +50,12 @@ export const Task = ({task}: TaskProps) => {
 }
 
 export type NewTaskProps = {
-  pushTask: (payload: PushTaskHookPayload) => void
   taskGroupId: string
 }
 
-export const NewTask = ({pushTask, taskGroupId}: NewTaskProps) => {
+export const NewTask = ({taskGroupId}: NewTaskProps) => {
   const [taskText, setTaskText] = React.useState('')
+  const {pushTask} = useTaskState()
 
   const onSubmitEditing = () => {
     pushTask({

@@ -4,6 +4,7 @@ import {ApplicationProvider as UIComponentProvider} from '@ui-kitten/components'
 import React from 'react'
 import 'react-native-get-random-values'
 import {FirebaseAuthProvider} from './hooks/useFirebaseAuth'
+import {TaskStateProvider} from './hooks/useTaskState/useTaskState'
 import Navigation from './navigation/Navigation'
 import {AppApolloProvider} from './providers/apollo'
 
@@ -14,7 +15,9 @@ export const App = () => {
     <UIComponentProvider {...eva} theme={eva.light}>
       <FirebaseAuthProvider>
         <AppApolloProvider>
-          <Navigation />
+          <TaskStateProvider>
+            <Navigation />
+          </TaskStateProvider>
         </AppApolloProvider>
       </FirebaseAuthProvider>
     </UIComponentProvider>
