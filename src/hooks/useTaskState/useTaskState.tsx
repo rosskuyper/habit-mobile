@@ -27,16 +27,18 @@ export type TaskStateContextType = {
   pushTask: (payload: PushTaskHookPayload) => void
   pushGroup: (payload: PushTaskGroupHookPayload) => void
   sortedGroups: TaskGroup[]
+  loading: boolean
 }
 
 const defaultTaskContext: TaskStateContextType = {
-  sortedGroups: [],
   pushTask: async () => {
     throw new Error('Incorrect useTaskState usage')
   },
   pushGroup: async () => {
     throw new Error('Incorrect useTaskState usage')
   },
+  sortedGroups: [],
+  loading: true,
 }
 
 const TaskStateContext = createContext<TaskStateContextType>(defaultTaskContext)
@@ -61,8 +63,9 @@ const useTaskStateProvider = () => {
    * Local state, kept in a reducer.
    * This is the source of truth for the UI to keep it nippy.
    */
-  const [{groups}, dispatch] = useReducer(taskStateReducer, {
+  const [{groups, loading}, dispatch] = useReducer(taskStateReducer, {
     groups: {},
+    loading: true,
   })
 
   /**
@@ -70,6 +73,20 @@ const useTaskStateProvider = () => {
    */
   const [addTaskGroup] = useMutation<AddTaskGroup, AddTaskGroupVariables>(ADD_TASK_GROUP)
   const [addTask] = useMutation<AddTask, AddTaskVariables>(ADD_TASK)
+
+  /**
+   * Utils
+   */
+  const setLoading = useCallback(
+    (isLoading: boolean) =>
+      dispatch({
+        type: TaskReducerAction.SET_LOADING,
+        payload: {
+          loading: isLoading,
+        },
+      }),
+    [dispatch],
+  )
 
   /**
    * Client code functions for actions they can dispatch
@@ -81,6 +98,7 @@ const useTaskStateProvider = () => {
         ...payload,
         text: text.trim(),
         taskId: v4(),
+        loading: true,
       }
 
       dispatch({
@@ -91,8 +109,15 @@ const useTaskStateProvider = () => {
       addTask({
         variables: fullPayload,
       })
+        .then(() => {
+          setLoading(false)
+        })
+        .catch(() => {
+          // todo - handle error
+          setLoading(false)
+        })
     },
-    [dispatch, addTask],
+    [dispatch, addTask, setLoading],
   )
 
   const pushGroup = useCallback(
@@ -102,6 +127,7 @@ const useTaskStateProvider = () => {
         ...payload,
         name: name.trim(),
         taskGroupId: v4(),
+        loading: true,
       }
 
       dispatch({
@@ -112,18 +138,28 @@ const useTaskStateProvider = () => {
       addTaskGroup({
         variables: fullPayload,
       })
+        .then(() => {
+          setLoading(false)
+        })
+        .catch(() => {
+          // todo - handle error
+          setLoading(false)
+        })
     },
-    [dispatch, addTaskGroup],
+    [dispatch, addTaskGroup, setLoading],
   )
 
   /**
    * Query
    */
   useQuery<TaskGroups>(QUERY_TASK_GROUPS, {
-    onCompleted: (taskResponse: TaskGroups) => {
+    onCompleted: ({taskGroups}: TaskGroups) => {
       dispatch({
         type: TaskReducerAction.GROUP_MERGE,
-        payload: taskResponse,
+        payload: {
+          taskGroups,
+          loading: false,
+        },
       })
     },
   })
@@ -132,5 +168,6 @@ const useTaskStateProvider = () => {
     pushTask,
     pushGroup,
     sortedGroups: sortGroups(values(groups)),
+    loading,
   }
 }

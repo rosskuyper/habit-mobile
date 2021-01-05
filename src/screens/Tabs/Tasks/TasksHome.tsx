@@ -6,13 +6,20 @@ import {QUERY_ME} from '../../../api/queries'
 import {BottomModal, useModalVisibility} from '../../../components/BottomModal/BottomModal'
 import {ScreenContainer} from '../../../components/ScreenContainer/ScreenContainer'
 import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
+import {TaskStateLoadingSpinner} from '../../../components/TaskStateLoadingSpinner/TaskStateLoadingSpinner'
 import {useTaskState} from '../../../hooks/useTaskState/useTaskState'
 
 const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    flex: 1,
+  },
+
   add: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
+    bottom: 20,
+    right: 20,
   },
 
   input: {
@@ -35,7 +42,7 @@ const styles = StyleSheet.create({
 })
 
 export const TasksHome = () => {
-  const {sortedGroups, pushGroup, pushTask} = useTaskState()
+  const {sortedGroups, pushGroup} = useTaskState()
   const [newTaskGroupName, setNewTaskGroupName] = useState('')
 
   const {isVisible, closeModal, openModal} = useModalVisibility()
@@ -57,11 +64,13 @@ export const TasksHome = () => {
   return (
     <>
       <ScreenContainer>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={styles.container}>
           {sortedGroups.map((group) => (
             <TaskGroup group={group} key={group.id} />
           ))}
         </ScrollView>
+
+        <TaskStateLoadingSpinner />
 
         <Button style={styles.add} onPress={openModal}>
           Add Group
