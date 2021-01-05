@@ -40,7 +40,7 @@ export const TasksHome = () => {
 
   const {isVisible, closeModal, openModal} = useModalVisibility()
 
-  const {data} = useQuery(QUERY_ME)
+  useQuery(QUERY_ME)
 
   const saveTaskGroup = () => {
     if (newTaskGroupName.trim() === '') {
