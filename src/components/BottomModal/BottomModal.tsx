@@ -2,7 +2,6 @@ import React, {FC, useCallback, useMemo, useState} from 'react'
 import {View, StyleSheet, LayoutChangeEvent} from 'react-native'
 import Modal from 'react-native-modal'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
-import {useKeyboardVisibility} from '../../hooks/useKeyboardVisibility'
 
 const styles = StyleSheet.create({
   view: {
@@ -70,7 +69,9 @@ export const BottomModal: FC<BottomModalProps> = (props) => {
   )
 }
 
-export const useModalVisibility = ({initialVisibility = false}: {initialVisibility?: boolean} = {}) => {
+export const useModalVisibility = ({
+  initialVisibility = false,
+}: {initialVisibility?: boolean} = {}) => {
   const [isVisible, setIsVisible] = useState(initialVisibility)
   const closeModal = useCallback(() => setIsVisible(false), [])
   const openModal = useCallback(() => setIsVisible(true), [])

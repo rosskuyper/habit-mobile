@@ -2,15 +2,23 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
 import {Ionicons} from '@expo/vector-icons'
 import React, {ComponentProps} from 'react'
+import {StyleSheet} from 'react-native'
 import {HabitsHome} from '../screens/Tabs/Habits/HabitsHome'
 import {HabitsStackList, TasksStackList} from './Params'
 import {TasksHome} from '../screens/Tabs/Tasks/TasksHome'
+
+const styles = StyleSheet.create({
+  tabBarLabel: {
+    paddingBottom: 4,
+  },
+})
 
 /***********************************************************************************************************************
  * Utils
  **********************************************************************************************************************/
 // Tab Nav Icons
-type IconProps = ComponentProps<typeof Ionicons>
+type IoniconType = typeof Ionicons // breaking this up over two lines helps vscode syntax highlighting
+type IconProps = ComponentProps<IoniconType>
 function TabBarIcon(props: IconProps) {
   return <Ionicons size={30} {...props} />
 }
@@ -43,7 +51,7 @@ const TabNav = createBottomTabNavigator()
 
 export const PrivateNavigation = () => {
   return (
-    <TabNav.Navigator>
+    <TabNav.Navigator tabBarOptions={{labelStyle: styles.tabBarLabel}}>
       <TabNav.Screen
         name="Tasks"
         component={TasksStack}
