@@ -4,9 +4,12 @@ import {TaskGroups} from '../../api/__types__/TaskGroups'
 /**
  * Reducer State
  */
+type TaskGroupMap = Record<string, TaskGroup>
+
 export type TaskState = {
-  groups: Record<string, TaskGroup>
+  groups: TaskGroupMap
   loading: boolean
+  localStateInitialised: boolean
 }
 
 export type TaskGroup = {
@@ -29,6 +32,7 @@ export enum TaskReducerAction {
   TASK_ADD,
   GROUP_ADD,
   GROUP_MERGE,
+  GROUP_MERGE_LOCAL,
   SET_LOADING,
 }
 
@@ -56,6 +60,15 @@ export type TaskAction_GroupMerge = {
   payload: {
     taskGroups: TaskGroups['taskGroups']
     loading?: boolean
+    localStateInitialised?: boolean
+  }
+}
+
+export type TaskAction_GroupMergeLocal = {
+  type: TaskReducerAction.GROUP_MERGE_LOCAL
+  payload: {
+    taskGroups: TaskGroupMap
+    localStateInitialised: boolean
   }
 }
 
@@ -70,6 +83,7 @@ export type TaskAction =
   | TaskAction_TaskAdd
   | TaskAction_GroupAdd
   | TaskAction_GroupMerge
+  | TaskAction_GroupMergeLocal
   | TaskAction_SetLoading
 
 // Exported for client code
@@ -84,6 +98,9 @@ export function taskStateReducer(state: TaskState, action: TaskAction): TaskStat
   switch (action.type) {
     case TaskReducerAction.GROUP_MERGE:
       return groupMerge(state, action)
+
+    case TaskReducerAction.GROUP_MERGE_LOCAL:
+      return groupMergeLocal(state, action)
 
     case TaskReducerAction.GROUP_ADD:
       return groupAdd(state, action)
@@ -104,7 +121,7 @@ export function taskStateReducer(state: TaskState, action: TaskAction): TaskStat
  *********************************************************************************/
 
 function groupMerge(state: TaskState, action: TaskAction_GroupMerge): TaskState {
-  const {taskGroups, loading} = action.payload
+  const {taskGroups, loading, localStateInitialised} = action.payload
 
   // Do some re-structuring to get the gql arrays shaped like our state object maps
   const taskGroupsWithConvertedTasks = convertInnerTasksToRecords(taskGroups)
@@ -113,7 +130,19 @@ function groupMerge(state: TaskState, action: TaskAction_GroupMerge): TaskState 
   return {
     ...state,
     loading: loading === undefined ? state.loading : loading,
+    localStateInitialised:
+      localStateInitialised === undefined ? state.localStateInitialised : localStateInitialised,
     groups: mergeDeepLeft(state.groups, taskGroupsRecord),
+  }
+}
+
+function groupMergeLocal(state: TaskState, action: TaskAction_GroupMergeLocal): TaskState {
+  const {taskGroups, localStateInitialised} = action.payload
+
+  return {
+    ...state,
+    localStateInitialised,
+    groups: mergeDeepLeft(state.groups, taskGroups),
   }
 }
 
