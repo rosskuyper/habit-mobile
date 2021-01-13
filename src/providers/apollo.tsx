@@ -17,8 +17,6 @@ export const AppApolloProvider: React.FC = ({children}) => {
   const authLink = setContext(async (_request, {headers}) => {
     const authorization = firebaseUser ? `Bearer ${await firebaseUser.getIdToken()}` : ''
 
-    console.log('headers.authorization', authorization)
-
     return {
       headers: {
         ...headers,
