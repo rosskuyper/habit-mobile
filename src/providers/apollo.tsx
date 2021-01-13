@@ -6,8 +6,6 @@ import {env} from '../Constants'
 import {useFirebaseAuth} from '../hooks/useFirebaseAuth'
 
 export const AppApolloProvider: React.FC = ({children}) => {
-  console.log('env.GRAPHQL_ENDPOINT', env.GRAPHQL_ENDPOINT)
-
   const httpLink = new HttpLink({
     uri: env.GRAPHQL_ENDPOINT,
   })

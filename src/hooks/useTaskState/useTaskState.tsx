@@ -1,6 +1,7 @@
 import {useMutation, useQuery} from '@apollo/client'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {prop, sortBy, values} from 'ramda'
-import {useCallback, useReducer} from 'react'
+import {useCallback, useEffect, useReducer} from 'react'
 import {v4} from 'uuid'
 import {ADD_TASK, ADD_TASK_GROUP} from '../../api/mutations'
 import {QUERY_TASK_GROUPS} from '../../api/queries'
@@ -22,9 +23,10 @@ export const useTaskStateProvider = () => {
    * Local state, kept in a reducer.
    * This is the source of truth for the UI to keep it nippy.
    */
-  const [{groups, loading}, dispatch] = useReducer(taskStateReducer, {
+  const [{groups, localStateInitialised, loading}, dispatch] = useReducer(taskStateReducer, {
     groups: {},
     loading: true,
+    localStateInitialised: false,
   })
 
   /**
@@ -109,7 +111,7 @@ export const useTaskStateProvider = () => {
   )
 
   /**
-   * Query
+   * Initial Query
    */
   useQuery<TaskGroups>(QUERY_TASK_GROUPS, {
     onCompleted: ({taskGroups}: TaskGroups) => {
@@ -122,6 +124,32 @@ export const useTaskStateProvider = () => {
       })
     },
   })
+
+  // Updating the local storage
+  useEffect(() => {
+    if (localStateInitialised) {
+      AsyncStorage.setItem('groups', JSON.stringify(groups)).catch((error) => {
+        console.log('AsyncStorage.setItem.groups.error', error)
+      })
+    }
+  }, [groups, localStateInitialised])
+
+  // Getting the initial value from local storage
+  useEffect(() => {
+    AsyncStorage.getItem('groups')
+      .then((taskGroups) => {
+        dispatch({
+          type: TaskReducerAction.GROUP_MERGE_LOCAL,
+          payload: {
+            taskGroups: taskGroups === null ? {} : JSON.parse(taskGroups),
+            localStateInitialised: true,
+          },
+        })
+      })
+      .catch((error) => {
+        console.log('AsyncStorage.getItem.groups.error', error)
+      })
+  }, [])
 
   return {
     pushTask,
