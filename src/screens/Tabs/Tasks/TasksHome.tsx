@@ -7,7 +7,7 @@ import {BottomModal, useModalVisibility} from '../../../components/BottomModal/B
 import {ScreenContainer} from '../../../components/ScreenContainer/ScreenContainer'
 import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
 import {TaskStateLoadingSpinner} from '../../../components/TaskStateLoadingSpinner/TaskStateLoadingSpinner'
-import {useTaskState} from '../../../hooks/useTaskState/useTaskState'
+import {useTaskStateContext} from '../../../hooks/useTaskState/useTaskStateContext'
 
 const styles = StyleSheet.create({
   container: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 })
 
 export const TasksHome = () => {
-  const {sortedGroups, pushGroup} = useTaskState()
+  const {sortedGroups, pushGroup} = useTaskStateContext()
   const [newTaskGroupName, setNewTaskGroupName] = useState('')
 
   const {isVisible, closeModal, openModal} = useModalVisibility()

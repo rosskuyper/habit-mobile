@@ -2,11 +2,11 @@ import React, {useMemo} from 'react'
 import {StyleSheet, View} from 'react-native'
 import {Spinner} from '@ui-kitten/components'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
-import {useTaskState} from '../../hooks/useTaskState/useTaskState'
+import {useTaskStateContext} from '../../hooks/useTaskState/useTaskStateContext'
 
 export const TaskStateLoadingSpinner = () => {
   const {top} = useSafeAreaInsets()
-  const {loading} = useTaskState()
+  const {loading} = useTaskStateContext()
 
   const styles = useMemo(() => {
     return StyleSheet.create({
