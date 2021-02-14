@@ -24,6 +24,7 @@ phases:
 
   pre_build:
     commands:
+      - 'yarn hash:validate'
       - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - yarn install
       - cd "$CODEBUILD_SRC_DIR/infra"

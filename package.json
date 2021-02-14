@@ -8,7 +8,9 @@
     "test": "jest",
     "xcode": "open ./ios/habitmobile.xcworkspace",
     "codegen": "yarn codegen:clean && apollo client:codegen __types__ --globalTypesFile=./src/globalTypes.ts --target=typescript && yarn prettier --write '**/__types__/*.ts' --loglevel=silent && yarn prettier --write 'src/globalTypes.ts' --loglevel=silent && rmdir __types__",
-    "codegen:clean": "find . -regex './src/.*__types__.*' -type d -prune -exec rm -r \"{}\" \\;"
+    "codegen:clean": "find . -regex './src/.*__types__.*' -type d -prune -exec rm -r \"{}\" \\;",
+    "hash:generate": "python3 versionHashUtils.py generate-hash",
+    "hash:validate": "python3 versionHashUtils.py validate"
   },
   "dependencies": {
     "@apollo/client": "^3.3.4",
