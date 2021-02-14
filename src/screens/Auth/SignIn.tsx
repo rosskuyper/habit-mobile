@@ -1,12 +1,13 @@
-import {GoogleSigninButton} from '@react-native-community/google-signin'
 import {AppleButton} from '@invertase/react-native-apple-authentication'
+import {GoogleSigninButton} from '@react-native-community/google-signin'
 import {Layout, Text} from '@ui-kitten/components'
+import Constants from 'expo-constants'
 import React from 'react'
-import {StyleSheet, Platform} from 'react-native'
+import {Platform, StyleSheet} from 'react-native'
 import {ScreenContainer} from '../../components/ScreenContainer/ScreenContainer'
 import {TopWeightedView} from '../../components/TopWeightedView/TopWeightedView'
-import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
 import {env} from '../../Constants'
+import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
 
 const isIOS = Platform.OS === 'ios'
 
@@ -15,6 +16,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 24,
+  },
+  hash: {
+    alignSelf: 'flex-end',
+    textAlign: 'center',
   },
 })
 
@@ -51,7 +56,9 @@ export const SignIn = () => {
 
           {error && <Text>{error.message}</Text>}
 
-          <Text style={{alignSelf: 'flex-end'}}>{env.COMMIT_HASH}</Text>
+          <Text
+            style={styles.hash}
+          >{`${Constants.nativeAppVersion}.${Constants.nativeBuildVersion} - ${env.APP_ENV} (${env.COMMIT_HASH})`}</Text>
         </Layout>
       </TopWeightedView>
     </ScreenContainer>
