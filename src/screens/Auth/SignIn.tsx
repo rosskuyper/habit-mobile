@@ -51,9 +51,7 @@ export const SignIn = () => {
 
           {error && <Text>{error.message}</Text>}
 
-          <Text>GRAPHQL_ENDPOINT: {env.GRAPHQL_ENDPOINT}</Text>
-          <Text>FIREBASE_WEB_CLIENT_ID: {env.FIREBASE_WEB_CLIENT_ID}</Text>
-          <Text>NODE_ENV: {env.NODE_ENV}</Text>
+          <Text style={{alignSelf: 'flex-end'}}>{env.COMMIT_HASH}</Text>
         </Layout>
       </TopWeightedView>
     </ScreenContainer>
