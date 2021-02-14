@@ -24,6 +24,7 @@ phases:
 
   pre_build:
     commands:
+      - 'yarn hash:validate'
       - expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - yarn install
       - cd "$CODEBUILD_SRC_DIR/infra"
@@ -35,6 +36,7 @@ phases:
       - terraform plan -out=main.tf.plan
       - terraform apply -auto-approve "main.tf.plan"
       - cd "$CODEBUILD_SRC_DIR"
+      - sed -i "s/%%COMMIT_HASH_REPLACE%%/$CODEBUILD_RESOLVED_SOURCE_VERSION/g" src/Constants.ts
       - 'expo publish --target=bare --release-channel=$RELEASE_CHANNEL'
       - 'curl -X POST --data-urlencode "payload={\"channel\": \"#ci-cd-notifications\", \"username\": \"ci-bot\", \"text\": \"Mobile App Expo Publish Finished - published to $RELEASE_CHANNEL\", \"icon_emoji\": \":male_mage:\"}" $SLACK_WEBHOOK'
     finally:
