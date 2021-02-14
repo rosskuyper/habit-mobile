@@ -9,3 +9,21 @@ export const QUERY_ME = gql`
     }
   }
 `
+
+export const QUERY_TASK_GROUPS = gql`
+  query TaskGroups {
+    taskGroups {
+      id
+      version
+      name
+      createdAt
+      updatedAt
+      tasks {
+        id
+        text
+        createdAt
+        completedAt
+      }
+    }
+  }
+`

@@ -14,12 +14,16 @@ export const AppApolloProvider: React.FC = ({children}) => {
   const {firebaseUser} = useFirebaseAuth()
 
   // The user token will change over time
-  const authLink = setContext(async (_request, {headers}) => ({
-    headers: {
-      ...headers,
-      authorization: firebaseUser ? `Bearer ${await firebaseUser.getIdToken()}` : '',
-    },
-  }))
+  const authLink = setContext(async (_request, {headers}) => {
+    const authorization = firebaseUser ? `Bearer ${await firebaseUser.getIdToken()}` : ''
+
+    return {
+      headers: {
+        ...headers,
+        authorization,
+      },
+    }
+  })
 
   // Error Handling
   const errorLink = onError((error) => {

@@ -12,7 +12,7 @@ GoogleSignin.configure({
  * `loading` is initially false (on app lanuch) and is set to true once we
  * have a definitive answer about the user's state
  */
-export type AuthContext = {
+export type AuthContextType = {
   loading: boolean
   inProgress: boolean
   error?: any
@@ -22,11 +22,11 @@ export type AuthContext = {
   initAppleSignIn: () => Promise<void>
 }
 
-export type GuaranteedAuthContext = AuthContext & {
+export type GuaranteedAuthContext = AuthContextType & {
   firebaseUser: FirebaseAuthTypes.User
 }
 
-const defaultAuth: AuthContext = {
+const defaultAuth: AuthContextType = {
   loading: true,
   inProgress: false,
   firebaseUser: null,
@@ -41,20 +41,20 @@ const defaultAuth: AuthContext = {
   },
 }
 
-const authContext = createContext<AuthContext>(defaultAuth)
+const AuthContext = createContext<AuthContextType>(defaultAuth)
 
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
 export const FirebaseAuthProvider: React.FC = ({children}) => {
   const authValue = useFirebaseAuthProvider()
 
-  return <authContext.Provider value={authValue}>{children}</authContext.Provider>
+  return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
 }
 
 // Hook for child components to get the auth object ...
 // ... and re-render when it changes.
 export const useFirebaseAuth = () => {
-  return useContext(authContext)
+  return useContext(AuthContext)
 }
 
 export const useFirebaseAuthOrError = (): GuaranteedAuthContext => {

@@ -1,17 +1,25 @@
+import {useQuery} from '@apollo/client'
 import {Button, Input, Text} from '@ui-kitten/components'
-import React, {useEffect, useState} from 'react'
-import {StyleSheet, View} from 'react-native'
+import React, {useState} from 'react'
+import {ScrollView, StyleSheet, View} from 'react-native'
+import {QUERY_ME} from '../../../api/queries'
 import {BottomModal, useModalVisibility} from '../../../components/BottomModal/BottomModal'
-import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
 import {ScreenContainer} from '../../../components/ScreenContainer/ScreenContainer'
-import {useTaskState} from '../../../hooks/useTaskState'
-import * as TaskTypes from '../../../types/TaskTypes'
+import {TaskGroup} from '../../../components/TaskGroup/TaskGroup'
+import {TaskStateLoadingSpinner} from '../../../components/TaskStateLoadingSpinner/TaskStateLoadingSpinner'
+import {useTaskStateContext} from '../../../hooks/useTaskState/useTaskStateContext'
 
 const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    flex: 1,
+  },
+
   add: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
+    bottom: 20,
+    right: 20,
   },
 
   input: {
@@ -34,10 +42,12 @@ const styles = StyleSheet.create({
 })
 
 export const TasksHome = () => {
-  const {sortedGroups, pushGroup, pushTask} = useTaskState()
+  const {sortedGroups, pushGroup} = useTaskStateContext()
   const [newTaskGroupName, setNewTaskGroupName] = useState('')
 
   const {isVisible, closeModal, openModal} = useModalVisibility()
+
+  useQuery(QUERY_ME)
 
   const saveTaskGroup = () => {
     if (newTaskGroupName.trim() === '') {
@@ -45,23 +55,22 @@ export const TasksHome = () => {
     }
 
     pushGroup({
-      title: newTaskGroupName,
+      name: newTaskGroupName,
     })
     closeModal()
     setNewTaskGroupName('')
   }
 
-  useEffect(() => {
-    pushGroup({title: 'Today'})
-    pushGroup({title: 'This week'})
-  }, [pushGroup])
-
   return (
     <>
       <ScreenContainer>
-        {sortedGroups.map((group: TaskTypes.TaskGroup) => (
-          <TaskGroup group={group} key={group.id} pushTask={pushTask} />
-        ))}
+        <ScrollView style={styles.container}>
+          {sortedGroups.map((group) => (
+            <TaskGroup group={group} key={group.id} />
+          ))}
+        </ScrollView>
+
+        <TaskStateLoadingSpinner />
 
         <Button style={styles.add} onPress={openModal}>
           Add Group
