@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopWeightedView renders 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "paddingTop": 333.5,
+      }
+    }
+  >
+    <Text>
+      Test Top Weighted View
+    </Text>
+  </View>
+</View>
+`;

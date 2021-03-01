@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BottomModal renders 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Modal
+    animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
+    hardwareAccelerated={false}
+    hideModalContentWhileAnimating={false}
+    onBackdropPress={[MockFunction]}
+    onModalHide={[Function]}
+    onModalWillHide={[Function]}
+    onModalWillShow={[Function]}
+    onRequestClose={[Function]}
+    onSwipeComplete={[MockFunction]}
+    scrollHorizontal={false}
+    scrollOffset={0}
+    scrollOffsetMax={0}
+    scrollTo={null}
+    supportedOrientations={
+      Array [
+        "portrait",
+        "landscape",
+      ]
+    }
+    swipeDirection={
+      Array [
+        "down",
+      ]
+    }
+    swipeThreshold={100}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      forwardedRef={[Function]}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "black",
+          "bottom": 0,
+          "height": 1334,
+          "left": 0,
+          "opacity": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": 750,
+        }
+      }
+    />
+    <View
+      onLayout={[Function]}
+      pointerEvents="box-none"
+      style={
+        Array [
+          Array [
+            Object {
+              "margin": 37.5,
+              "transform": Array [
+                Object {
+                  "translateY": 0,
+                },
+              ],
+            },
+            Object {
+              "flex": 1,
+              "justifyContent": "center",
+            },
+            Object {
+              "justifyContent": "flex-end",
+              "margin": 0,
+            },
+            Object {
+              "margin": 0,
+            },
+          ],
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <View
+        deviceHeight={null}
+        deviceWidth={null}
+        forwardedRef={[Function]}
+        hideModalContentWhileAnimating={false}
+        onBackdropPress={[MockFunction]}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        onSwipeComplete={[MockFunction]}
+        pointerEvents="box-none"
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "flex-end",
+            "left": 0,
+            "margin": 0,
+            "top": 0,
+            "transform": Array [
+              Object {
+                "translateY": 1334,
+              },
+            ],
+          }
+        }
+        supportedOrientations={
+          Array [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeDirection={
+          Array [
+            "down",
+          ]
+        }
+        swipeThreshold={100}
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "white",
+                "borderTopLeftRadius": 10,
+                "borderTopRightRadius": 10,
+                "paddingTop": 15,
+              },
+              Object {
+                "paddingBottom": 25,
+              },
+            ]
+          }
+        >
+          <Text>
+            Test Bottom Modal
+          </Text>
+        </View>
+      </View>
+    </View>
+  </Modal>
+</View>
+`;
