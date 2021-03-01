@@ -7,7 +7,7 @@ import {Platform, StyleSheet} from 'react-native'
 import {ScreenContainer} from '../../components/ScreenContainer/ScreenContainer'
 import {TopWeightedView} from '../../components/TopWeightedView/TopWeightedView'
 import {env} from '../../Constants'
-import {useFirebaseAuth} from '../../hooks/useFirebaseAuth'
+import {useFirebaseAuth} from '../../hooks/useFirebaseAuth/useFirebaseAuth'
 
 const isIOS = Platform.OS === 'ios'
 

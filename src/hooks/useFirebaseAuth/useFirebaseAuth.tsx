@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext, createContext} from 'react'
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth'
 import {GoogleSignin} from '@react-native-community/google-signin'
 import {appleAuth} from '@invertase/react-native-apple-authentication'
-import {env} from '../Constants'
+import {env} from '../../Constants'
 
 GoogleSignin.configure({
   webClientId: env.FIREBASE_WEB_CLIENT_ID,

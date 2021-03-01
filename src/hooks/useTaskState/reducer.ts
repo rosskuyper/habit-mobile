@@ -120,7 +120,7 @@ export function taskStateReducer(state: TaskState, action: TaskAction): TaskStat
  * The actual reducing functions
  *********************************************************************************/
 
-function groupMerge(state: TaskState, action: TaskAction_GroupMerge): TaskState {
+export function groupMerge(state: TaskState, action: TaskAction_GroupMerge): TaskState {
   const {taskGroups, loading, localStateInitialised} = action.payload
 
   // Do some re-structuring to get the gql arrays shaped like our state object maps
@@ -136,7 +136,7 @@ function groupMerge(state: TaskState, action: TaskAction_GroupMerge): TaskState 
   }
 }
 
-function groupMergeLocal(state: TaskState, action: TaskAction_GroupMergeLocal): TaskState {
+export function groupMergeLocal(state: TaskState, action: TaskAction_GroupMergeLocal): TaskState {
   const {taskGroups, localStateInitialised} = action.payload
 
   return {
@@ -146,7 +146,7 @@ function groupMergeLocal(state: TaskState, action: TaskAction_GroupMergeLocal): 
   }
 }
 
-function groupAdd(state: TaskState, action: TaskAction_GroupAdd): TaskState {
+export function groupAdd(state: TaskState, action: TaskAction_GroupAdd): TaskState {
   const {taskGroupId, name, loading} = action.payload
 
   if (state.groups[taskGroupId]) {
@@ -167,7 +167,7 @@ function groupAdd(state: TaskState, action: TaskAction_GroupAdd): TaskState {
   }
 }
 
-function taskAdd(state: TaskState, action: TaskAction_TaskAdd): TaskState {
+export function taskAdd(state: TaskState, action: TaskAction_TaskAdd): TaskState {
   const {taskGroupId, taskId, text, loading} = action.payload
   const group = state.groups[taskGroupId]
 
@@ -198,7 +198,7 @@ function taskAdd(state: TaskState, action: TaskAction_TaskAdd): TaskState {
   }
 }
 
-function setLoading(state: TaskState, action: TaskAction_SetLoading): TaskState {
+export function setLoading(state: TaskState, action: TaskAction_SetLoading): TaskState {
   return {
     ...state,
     loading: action.payload.loading,
@@ -217,7 +217,7 @@ function setLoading(state: TaskState, action: TaskAction_SetLoading): TaskState 
  * 2. Map the items to just get their order value
  * 3. Reduce over the orders to find the max value (or -1)
  */
-const getMaxOrder = pipe<Record<string, Task>, Task[], number[], number>(
+export const getMaxOrder = pipe<Record<string, Task>, Task[], number[], number>(
   values,
   map<Task, number>(prop('order')),
   reduce<number, number>(max, -1),
@@ -227,18 +227,26 @@ const getMaxOrder = pipe<Record<string, Task>, Task[], number[], number>(
  * Convert a GQL array structure to an object map
  */
 type ItemWithId = {id: string}
-type ItemArrayPair = [string, ItemWithId]
-type ItemRecord = Record<string, ItemWithId>
+type ItemArrayPair<T = ItemWithId> = [string, T]
+type ItemRecord<T = ItemWithId> = Record<string, T>
 
-const convertToRecord = pipe<Array<ItemWithId>, ItemArrayPair[], ItemRecord>(
-  map<ItemWithId, ItemArrayPair>((item) => [item.id, item]),
-  fromPairs,
-)
+// I don't seem to be able to get the Generics to work how I would like.
+// We should be able to just have `convertToRecord` be the function created by `pipe`.
+// But the generic T isn't available to properly type the different steps defined within `pipe`.
+// So we just define the fn and call it each time.
+export function convertToRecord<T extends ItemWithId>(items: T[]): ItemRecord<T> {
+  const mapFn = pipe<T[], ItemArrayPair<T>[], ItemRecord<T>>(
+    map<T, ItemArrayPair<T>>((item) => [item.id, item]),
+    fromPairs,
+  )
+
+  return mapFn(items)
+}
 
 type ItemWithTasksArray = ItemWithId & {tasks: Array<ItemWithId>}
 type ItemWithTasksRecord = ItemWithId & {tasks: ItemRecord}
 
-const convertInnerTasksToRecords = map<ItemWithTasksArray, ItemWithTasksRecord>((item) => {
+export const convertInnerTasksToRecords = map<ItemWithTasksArray, ItemWithTasksRecord>((item) => {
   return {
     ...item,
     tasks: convertToRecord(item.tasks),
