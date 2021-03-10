@@ -75,3 +75,7 @@ web-build/
 
 # Local env
 .env
+
+# Google Config Files
+**/GoogleService-Info.plist
+**/google-services.json
