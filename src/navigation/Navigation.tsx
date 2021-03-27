@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native'
 import * as React from 'react'
-import {useFirebaseAuth} from '../hooks/useFirebaseAuth'
+import {useFirebaseAuth} from '../hooks/useFirebaseAuth/useFirebaseAuth'
 import {SplashScreen} from '../screens/SplashScreen/SplashScreen'
 import {PrivateNavigation} from './PrivateNavigation'
 import {PublicNavigation} from './PublicNavigation'

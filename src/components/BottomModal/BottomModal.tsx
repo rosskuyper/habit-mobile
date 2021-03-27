@@ -1,5 +1,5 @@
-import React, {FC, useCallback, useMemo, useState} from 'react'
-import {View, StyleSheet, LayoutChangeEvent} from 'react-native'
+import React, {PropsWithChildren, useCallback, useMemo, useState} from 'react'
+import {LayoutChangeEvent, StyleSheet, View} from 'react-native'
 import Modal from 'react-native-modal'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 
@@ -31,7 +31,7 @@ export type BottomModalProps = {
   swipeThresholdPercentage?: number
 }
 
-export const BottomModal: FC<BottomModalProps> = (props) => {
+export const BottomModal = (props: PropsWithChildren<BottomModalProps>) => {
   const {closeModal, isVisible, children, swipeThresholdPercentage = 0.6} = props
   const [swipeThreshold, setSwipeThreshold] = useState(100)
 

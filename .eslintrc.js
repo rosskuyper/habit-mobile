@@ -1,6 +1,18 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/eslint-recommended', 'react-app'],
-  plugins: ['react-native-globals'],
+  extends: [
+    //
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'react-app',
+    'plugin:jest-dom/recommended',
+    'plugin:testing-library/recommended',
+  ],
+  plugins: [
+    //
+    'react-native-globals',
+    'testing-library',
+    'jest-dom',
+  ],
   rules: {
     'no-async-promise-executor': 'error',
     'require-atomic-updates': 'error',

@@ -11,5 +11,6 @@ jobs:
         with:
           node-version: '14'
       - run: yarn hash:validate
-      - run: yarn install
+      - run: yarn install --production=false
       - run: yarn tsc
+      - run: yarn test

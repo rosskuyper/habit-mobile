@@ -3,7 +3,7 @@ import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, from} from '@apol
 import {setContext} from '@apollo/client/link/context'
 import {onError} from '@apollo/client/link/error'
 import {env} from '../Constants'
-import {useFirebaseAuth} from '../hooks/useFirebaseAuth'
+import {useFirebaseAuth} from '../hooks/useFirebaseAuth/useFirebaseAuth'
 
 export const AppApolloProvider: React.FC = ({children}) => {
   const httpLink = new HttpLink({
